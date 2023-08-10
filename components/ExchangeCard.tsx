@@ -1,4 +1,9 @@
-import { symbols } from "@/constants/currencyRates";
+import {
+  countries,
+  specialCurrencies,
+  symbols,
+} from "@/constants/currencyRates";
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { CgArrowsExchangeAltV } from "react-icons/cg";
 import { IoIosArrowDown } from "react-icons/io";
@@ -6,13 +11,15 @@ import { IoIosArrowDown } from "react-icons/io";
 interface ExchangeCardProps {
   label: string;
   down?: boolean;
-  calculatedCurrency?: number;
+  calculatedAmount?: number;
+  calculateCurrency: (symbol: string, amount?: string) => void;
 }
 
 const ExchangeCard: React.FC<ExchangeCardProps> = ({
   label,
   down,
-  calculatedCurrency,
+  calculatedAmount,
+  calculateCurrency,
 }) => {
   const [selectedCurrencyName, setSelectedCurrencyName] = useState<string>(
     symbols[Object.keys(symbols)[0]] //first value of symbols object
@@ -20,7 +27,9 @@ const ExchangeCard: React.FC<ExchangeCardProps> = ({
   const [selectedCurrencySymbol, setSelectedCurrencySymbol] = useState<string>(
     Object.keys(symbols)[0] //first key of symbols object
   );
-  const [enteredAmount, setEnteredAmount] = useState<number>(0);
+
+  const [enteredAmount, setEnteredAmount] = useState<string>("0");
+  const [flag, setFlag] = useState<string>("");
 
   const options = Object.keys(symbols).map((key) => (
     <option key={symbols[key]} value={symbols[key]}>
@@ -40,12 +49,25 @@ const ExchangeCard: React.FC<ExchangeCardProps> = ({
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEnteredAmount(parseInt(e.target.value));
+    setEnteredAmount(e.target.value);
   };
 
   useEffect(() => {
-    
-  }, []);
+    if (specialCurrencies[selectedCurrencySymbol]) {
+      setFlag(specialCurrencies[selectedCurrencySymbol]);
+    } else {
+      setFlag(
+        `https://www.countryflagicons.com/FLAT/32/${countries[selectedCurrencySymbol]}.png`
+      );
+    }
+
+    setEnteredAmount("0");
+  }, [selectedCurrencySymbol]);
+
+  useEffect(() => {
+    !down && calculateCurrency(selectedCurrencySymbol, enteredAmount); // invoke this function only for upper ExchangeCard
+    down && calculateCurrency(selectedCurrencySymbol);
+  }, [enteredAmount, selectedCurrencySymbol]);
 
   return (
     <div
@@ -56,7 +78,9 @@ const ExchangeCard: React.FC<ExchangeCardProps> = ({
       <div>
         <h2 className="font-bold text-gray-400">Select your currency</h2>
         <div className="flex gap-2 items-center bg-[#edf0f9] rounded-lg p-2 w-full">
-          <div>flag</div>
+          <div>
+            <img src={flag} className="w-[32px]" />
+          </div>
           <select
             className="text-right w-full outline-none px-4 py-2 rounded-md bg-transparent appearance-none"
             onChange={handleSelectChange}
@@ -80,7 +104,7 @@ const ExchangeCard: React.FC<ExchangeCardProps> = ({
             />
           ) : (
             <div className="no-arrows outline-none text-right w-full h-full bg-[#edf0f9] rounded-lg p-2 font-bold text-black text-2xl">
-              {calculatedCurrency}
+              {calculatedAmount}
             </div>
           )}
         </div>

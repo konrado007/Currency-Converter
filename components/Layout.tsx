@@ -52,7 +52,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               <div
                 key={link.label}
                 onClick={() => setActiveTab(link)}
-                className={`py-4 px-2 text-left font-semibold relative flex gap-1`}
+                className={`py-4 pr-5 pl-2 text-left font-semibold relative flex gap-2`}
               >
                 <link.Icon size={25} />
                 <span>{link.label}</span>

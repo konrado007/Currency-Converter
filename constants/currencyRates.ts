@@ -1,6 +1,12 @@
+import { StaticImageData } from "next/image";
 export const updateDate = "2023-08-09";
 export const base = "EUR";
-export const currenyRates = {
+
+interface currencyRates {
+  [key: string]: number;
+}
+
+export const currenyRates: currencyRates = {
   AED: 4.03258,
   AFN: 92.950791,
   ALL: 103.358475,
@@ -22,7 +28,7 @@ export const currenyRates = {
   BOB: 7.587825,
   BRL: 5.385715,
   BSD: 1.097964,
-  BTC: 3.7251408e-5,
+  BTC: 0.000037251408,
   BTN: 90.956859,
   BWP: 14.857922,
   BYN: 2.771418,
@@ -132,7 +138,6 @@ export const currenyRates = {
   SEK: 11.721009,
   SGD: 1.477787,
   SHP: 1.335862,
-  SLE: 23.023399,
   SLL: 21683.400537,
   SOS: 625.247923,
   SSP: 660.380752,
@@ -308,7 +313,6 @@ export const symbols: symbolsDictionary = {
   SEK: "Swedish Krona",
   SGD: "Singapore Dollar",
   SHP: "Saint Helena Pound",
-  SLE: "Sierra Leonean Leone",
   SLL: "Sierra Leonean Leone",
   SOS: "Somali Shilling",
   SRD: "Surinamese Dollar",
@@ -349,12 +353,17 @@ export const symbols: symbolsDictionary = {
   ZWL: "Zimbabwean Dollar",
 };
 
-export const specialCurrencies = {
-  BTC: "",
-  EUR: "",
+export const specialCurrencies: { [key: string]: string} = {
+  BTC: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/800px-Bitcoin.svg.png",
+  XAU: '/gold.png',
+  XAG: '/silver.png',
 };
 
-export const countries = {
+interface countryDictionary {
+  [key: string]: string;
+}
+
+export const countries: countryDictionary = {
   AED: "AE",
   AFN: "AF",
   ALL: "AL",
@@ -486,7 +495,6 @@ export const countries = {
   SEK: "SE",
   SGD: "SG",
   SHP: "SH",
-  SLE: "SL",
   SLL: "SL",
   SOS: "SO",
   SRD: "SR",
@@ -515,8 +523,6 @@ export const countries = {
   VUV: "VU",
   WST: "WS",
   XAF: "CM",
-  XAG: "XX", // No specific country
-  XAU: "XX", // No specific country
   XCD: "LC",
   XOF: "BJ",
   XPF: "PF",
