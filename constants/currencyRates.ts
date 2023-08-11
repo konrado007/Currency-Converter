@@ -6,7 +6,7 @@ interface currencyRates {
   [key: string]: number;
 }
 
-export const currenyRates: currencyRates = {
+export const currencyRates: currencyRates = {
   AED: 4.03258,
   AFN: 92.950791,
   ALL: 103.358475,

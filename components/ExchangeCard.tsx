@@ -3,7 +3,6 @@ import {
   specialCurrencies,
   symbols,
 } from "@/constants/currencyRates";
-import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { CgArrowsExchangeAltV } from "react-icons/cg";
 import { IoIosArrowDown } from "react-icons/io";

@@ -38,7 +38,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [activeTab, setActiveTab] = useState<navLink>(navLinks[0]);
 
   const router = useRouter();
-  
+
   useEffect(() => {
     router.push(activeTab.href);
   }, [activeTab]);
@@ -54,8 +54,17 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 onClick={() => setActiveTab(link)}
                 className={`py-4 pr-5 pl-2 text-left font-semibold relative flex gap-2`}
               >
-                <link.Icon size={25} />
-                <span>{link.label}</span>
+                <link.Icon
+                  size={25}
+                  color={activeTab.label == link.label ? "#423683" : "#000"}
+                />
+                <span
+                  className={`font-bold ${
+                    activeTab.label == link.label ? "text-[#423683]" : "text-[#000]"
+                  }`}
+                >
+                  {link.label}
+                </span>
                 {activeTab.label == link.label && (
                   <div className="absolute left-0 top-0 w-[3px] h-full bg-[#423683]"></div>
                 )}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ExchangeCard from "@/components/ExchangeCard";
-import { currenyRates } from "@/constants/currencyRates";
+import { currencyRates } from "@/constants/currencyRates";
 
 export default function Converter() {
   const [symbol, setSymbol] = useState<string>("");
@@ -28,8 +28,8 @@ export default function Converter() {
     }
 
     //calculate in euro base
-    const amountInEuro = +enteredAmount / currenyRates[symbol]; // how mouch euro is in currency (upper)
-    const amountInChosenCurrency = amountInEuro * currenyRates[chosenSymbol];
+    const amountInEuro = +enteredAmount / currencyRates[symbol]; // how mouch euro is in currency (upper)
+    const amountInChosenCurrency = amountInEuro * currencyRates[chosenSymbol];
 
     setCalculatedAmount(+amountInChosenCurrency);
   }, [enteredAmount, chosenSymbol]);
