@@ -4,6 +4,7 @@ import {
   specialCurrencies,
   symbols,
 } from "@/constants/currencyRates";
+import { customRound } from "@/lib/currency";
 import { useState } from "react";
 import { BsSearch } from "react-icons/bs";
 
@@ -60,7 +61,10 @@ export default function Currencies() {
                       {symbols[currency]}
                     </h2>
                     <p className="font-bold">
-                      {currencyRates[currency].toFixed(2).replace(".", ",")}
+                      {customRound(currencyRates[currency],10).replace(
+                        ".",
+                        ","
+                      )}
                     </p>
                   </div>
                 </div>

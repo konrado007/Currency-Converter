@@ -3,6 +3,7 @@ import {
   specialCurrencies,
   symbols,
 } from "@/constants/currencyRates";
+import { customRound } from "@/lib/currency";
 import React, { useState, useEffect } from "react";
 import { CgArrowsExchangeAltV } from "react-icons/cg";
 import { IoIosArrowDown } from "react-icons/io";
@@ -103,7 +104,7 @@ const ExchangeCard: React.FC<ExchangeCardProps> = ({
             />
           ) : (
             <div className="no-arrows outline-none text-right w-full h-full bg-[#edf0f9] rounded-lg p-2 font-bold text-black text-2xl">
-              {calculatedAmount}
+              {customRound(calculatedAmount, 4)}
             </div>
           )}
         </div>
