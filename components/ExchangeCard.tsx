@@ -8,6 +8,7 @@ import { customRound } from "@/lib/currency";
 import React, { useState, useEffect, useCallback, useContext } from "react";
 import { CgArrowsExchangeAltV } from "react-icons/cg";
 import { IoIosArrowDown } from "react-icons/io";
+import Buttons from "./Buttons";
 
 interface ExchangeCardProps {
   label: string;
@@ -100,20 +101,29 @@ const ExchangeCard: React.FC<ExchangeCardProps> = ({
           <IoIosArrowDown />
         </div>
         {!down && (
-          <label
-            className="flex gap-3 mt-1 items-center cursor-pointer"
-            onClick={() => setActive((prevActive) => !prevActive)}
-          >
-            <div
-              className={`h-3 rounded-sm w-3 appearance-none ${
-                active ? "bg-[#705adf]" : "bg-[#edf0f9]"
-              }`}
-              // Stop the click event from propagating to the outer div
-            />
-            <div className="font-bold text-md text-gray-400">
-              Show only currencies that you have
-            </div>
-          </label>
+          <div>
+            <label
+              className="flex gap-3 mt-1 items-center cursor-pointer"
+              onClick={() => setActive((prevActive) => !prevActive)}
+            >
+              <div
+                className={`h-3 rounded-sm w-3 appearance-none ${
+                  active ? "bg-[#705adf]" : "bg-[#edf0f9]"
+                }`}
+              />
+              <div className="font-bold text-md text-gray-400">
+                Show only currencies that you have
+              </div>
+            </label>
+            {state.currencies
+              .map((c) => c.name)
+              .includes(selectedCurrencySymbol) && (
+              <Buttons
+                currency={selectedCurrencySymbol}
+                setEnteredAmount={setEnteredAmount}
+              />
+            )}
+          </div>
         )}
       </div>
 

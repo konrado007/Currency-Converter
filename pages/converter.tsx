@@ -2,12 +2,14 @@ import React, { useContext, useEffect, useState } from "react";
 import ExchangeCard from "@/components/ExchangeCard";
 import { currencyRates } from "@/constants/currencyRates";
 import { UserContext } from "@/context/UserContext";
+import { customRound } from "@/lib/currency";
 
 export default function Converter() {
   const [symbol, setSymbol] = useState<string>("");
   const [enteredAmount, setEnteredAmount] = useState<string>("0");
   const [chosenSymbol, setChosenSymbol] = useState<string>("");
   const [calculatedAmount, setCalculatedAmount] = useState<number>(0);
+  const [disable, setDisable] = useState<boolean>(false);
 
   const { state, dispatch } = useContext(UserContext);
 
@@ -45,8 +47,8 @@ export default function Converter() {
         payload: {
           currencyToExchange: symbol,
           currencyToBuy: chosenSymbol,
-          amountOfCurrencyToExchange: +enteredAmount,
-          amountOfCurrencyToBuy: calculatedAmount,
+          amountOfCurrencyToExchange: +customRound(+enteredAmount),
+          amountOfCurrencyToBuy: +customRound(calculatedAmount),
         },
       });
 
@@ -55,8 +57,14 @@ export default function Converter() {
     }
   };
 
+  useEffect(() => {
+    const symbols = state.currencies.map((c) => c.name);
+
+    setDisable(!symbols.includes(symbol));
+  }, [symbol]);
+
   return (
-    <div className="flex-1 p-2 bg-gray-200">
+    <div className="flex-1 p-2 bg-gray-200 min-h-[612px]">
       <div className="w-full h-full flex flex-col ">
         <p className="text-2xl font-semibold">Converter</p>
         <div className="flex-1 flex items-center justify-center">
@@ -72,7 +80,10 @@ export default function Converter() {
               calculateCurrency={getSymbol}
             />
             <button
-              className="w-2/3 bg-[#705adf] mt-2 py-3 px-2 rounded-lg text-lg font-bold shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)] text-white"
+              disabled={disable}
+              className={`w-2/3 ${
+                disable ? "bg-[#aea6d1]" : "bg-[#705adf]"
+              }  mt-2 py-3 px-2 rounded-lg text-lg font-bold shadow-[0_35px_60px_-15px_rgba(0,0,0,0.3)] text-white`}
               onClick={buyCurrency}
             >
               Buy

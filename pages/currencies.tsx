@@ -12,8 +12,8 @@ export default function Currencies() {
   const [filter, setFilter] = useState<string>("");
 
   return (
-    <div className="flex-1 p-2 ">
-      <div className="w-full h-full flex flex-col max-h-[520px]">
+    <div className="flex-1 p-2 min-h-[612px]">
+      <div className="w-full h-full flex flex-col max-h-[585px]">
         <div className="flex w-full justify-between items-center">
           <p className="text-2xl font-semibold">All currencies</p>
           <div className="flex gap-2 items-center mr-5 bg-gray-200 rounded-full p-2 px-3">

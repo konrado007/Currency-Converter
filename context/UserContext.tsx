@@ -16,6 +16,9 @@ type ActionType = {
 const reducer = (state: UserType, action: ActionType): UserType => {
   switch (action.type) {
     case "BUY":
+      if (action.payload.currencyToBuy == action.payload.currencyToExchange)
+        //if currencies are the same do nothing and return state
+        return state;
       let updatedCurrencies = state.currencies.map((currency) => {
         if (currency.name === action.payload.currencyToExchange) {
           return {

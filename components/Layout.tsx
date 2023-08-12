@@ -46,7 +46,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div className="bg-[#705adf] w-full h-screen flex items-center justify-center text-black">
       <div className="bg-white rounded-lg flex overflow-hidden">
-        <section className="border-r-[1px] border-[#cecdcd] h-[600px]">
+        <section className="border-r-[1px] border-[#cecdcd] flex-1">
           {navLinks.map((link: navLink) => {
             return (
               <div

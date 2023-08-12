@@ -3,7 +3,6 @@ import {
   specialCurrencies,
   symbols,
 } from "@/constants/currencyRates";
-import { customRound } from "@/lib/currency";
 import React from "react";
 
 interface Props {
@@ -23,16 +22,13 @@ const CurrencyCard: React.FC<Props> = ({ name, amount }) => {
           }
         />
       </div>
-      <div
-        className="flex justify-between flex-1
-      "
-      >
+      <div className="flex justify-between flex-1">
         <div>
           <h2 className="font-bold text-2xl">{name}</h2>
           <h3 className="text-[#949494]">{symbols[name]}</h3>
         </div>
         <p className="font-bold text-2xl self-end">
-          {customRound(amount)} {name}
+          {amount} {name}
         </p>
       </div>
     </div>

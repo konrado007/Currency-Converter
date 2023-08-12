@@ -23,3 +23,4 @@ export const customRound = (
 
   return number.toString().slice(0, index + 3);
 };
+  
