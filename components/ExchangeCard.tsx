@@ -3,8 +3,9 @@ import {
   specialCurrencies,
   symbols,
 } from "@/constants/currencyRates";
+import { UserContext } from "@/context/UserContext";
 import { customRound } from "@/lib/currency";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import { CgArrowsExchangeAltV } from "react-icons/cg";
 import { IoIosArrowDown } from "react-icons/io";
 
@@ -31,11 +32,20 @@ const ExchangeCard: React.FC<ExchangeCardProps> = ({
   const [enteredAmount, setEnteredAmount] = useState<string>("0");
   const [flag, setFlag] = useState<string>("");
 
-  const options = Object.keys(symbols).map((key) => (
-    <option key={symbols[key]} value={symbols[key]}>
-      {symbols[key]}
-    </option>
-  ));
+  const [active, setActive] = useState<boolean>(false);
+  const { state } = useContext(UserContext);
+
+  const options = () => {
+    const userCurrencies = state.currencies.map((c) => c.name);
+    return Object.keys(symbols).map((key) => {
+      if (!userCurrencies.includes(key) && active) return;
+      return (
+        <option key={symbols[key]} value={symbols[key]}>
+          {symbols[key]}
+        </option>
+      );
+    });
+  };
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     Object.keys(symbols).map((key) => {
@@ -85,10 +95,26 @@ const ExchangeCard: React.FC<ExchangeCardProps> = ({
             className="text-right w-full outline-none px-4 py-2 rounded-md bg-transparent appearance-none"
             onChange={handleSelectChange}
           >
-            {options}
+            {options()}
           </select>
           <IoIosArrowDown />
         </div>
+        {!down && (
+          <label
+            className="flex gap-3 mt-1 items-center cursor-pointer"
+            onClick={() => setActive((prevActive) => !prevActive)}
+          >
+            <div
+              className={`h-3 rounded-sm w-3 appearance-none ${
+                active ? "bg-[#705adf]" : "bg-[#edf0f9]"
+              }`}
+              // Stop the click event from propagating to the outer div
+            />
+            <div className="font-bold text-md text-gray-400">
+              Show only currencies that you have
+            </div>
+          </label>
+        )}
       </div>
 
       <div className="mt-4 text-gray-400">

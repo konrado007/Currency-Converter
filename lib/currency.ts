@@ -8,7 +8,6 @@ export const customRound = (
     let roundedNumber = "";
     for (let i = 0; i < number.toString().length; i++) {
       if (number.toString()[i] != "0" && number.toString()[i] != ".") {
-        console.log(number, i);
         roundedNumber = number
           .toString()
           .slice(0, (decimalPlaces && i + decimalPlaces) || i + 2);
@@ -17,6 +16,8 @@ export const customRound = (
     }
 
     return roundedNumber;
+  } else if (!number.toString().includes(".")) {
+    return number.toString();
   }
   let index = number.toString().indexOf(".");
 

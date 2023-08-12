@@ -35,11 +35,6 @@ export default function Currencies() {
         </div>
         <div className="overflow-y-scroll no-scrollbar flex flex-col gap-2 mt-2">
           {Object.keys(currencyRates).map((currency) => {
-            let img = `https://www.countryflagicons.com/FLAT/32/${countries[currency]}.png`;
-            if (specialCurrencies[currency] !== undefined) {
-              img = specialCurrencies[currency];
-            }
-
             if (
               currency
                 .toLocaleLowerCase()
@@ -51,7 +46,13 @@ export default function Currencies() {
               return (
                 <div className="w-full flex items-center justify-between bg-gray-200 rounded-full px-5 py-3">
                   <div className="flex gap-3 items-center flex-[.3]">
-                    <img src={img} className="w-[32px]" />
+                    <img
+                      src={
+                        specialCurrencies[currency] ||
+                        `https://www.countryflagicons.com/FLAT/32/${countries[currency]}.png`
+                      }
+                      className="w-[32px]"
+                    />
                     <h2 className="font-bold text-lg text-gray-500">
                       {currency}
                     </h2>
@@ -61,7 +62,7 @@ export default function Currencies() {
                       {symbols[currency]}
                     </h2>
                     <p className="font-bold">
-                      {customRound(currencyRates[currency],10).replace(
+                      {customRound(currencyRates[currency], 8).replace(
                         ".",
                         ","
                       )}
