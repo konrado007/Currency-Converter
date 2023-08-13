@@ -3,6 +3,7 @@ import ExchangeCard from "@/components/ExchangeCard";
 import { currencyRates } from "@/constants/currencyRates";
 import { UserContext } from "@/context/UserContext";
 import { customRound } from "@/lib/currency";
+import Modal from "@/components/Modal";
 
 export default function Converter() {
   const [symbol, setSymbol] = useState<string>("");
@@ -10,6 +11,7 @@ export default function Converter() {
   const [chosenSymbol, setChosenSymbol] = useState<string>("");
   const [calculatedAmount, setCalculatedAmount] = useState<number>(0);
   const [disable, setDisable] = useState<boolean>(false);
+  const [modal, setModal] = useState<boolean>(false);
 
   const { state, dispatch } = useContext(UserContext);
 
@@ -41,7 +43,7 @@ export default function Converter() {
 
   const buyCurrency = () => {
     const exists = state.currencies.find((c) => c.name == symbol);
-    if (exists && exists.amount >= +enteredAmount) {
+    if (exists && exists.amount >= +enteredAmount && calculatedAmount > 0) {
       dispatch({
         type: "BUY",
         payload: {
@@ -51,7 +53,7 @@ export default function Converter() {
           amountOfCurrencyToBuy: +customRound(calculatedAmount),
         },
       });
-
+      setModal(true);
       setCalculatedAmount(0);
       setEnteredAmount("0");
     }
@@ -63,8 +65,19 @@ export default function Converter() {
     setDisable(!symbols.includes(symbol));
   }, [symbol]);
 
+  const closeModal = () => {
+    setModal(false);
+  };
+
   return (
     <div className="flex-1 p-2 bg-gray-200 min-h-[612px]">
+      <Modal isOpen={modal} onClose={closeModal}>
+        <div className="flex items-center flex-col gap-1 p-2">
+          <img src="/tick.png" alt="" className="w-[70px]" />
+          <h2 className="font-bold text-2xl">Success</h2>
+        </div>
+      </Modal>
+
       <div className="w-full h-full flex flex-col ">
         <p className="text-2xl font-semibold">Converter</p>
         <div className="flex-1 flex items-center justify-center">
