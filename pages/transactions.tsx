@@ -9,7 +9,7 @@ export default function Transactions() {
     <div className="flex-1 p-2 min-h-[612px]">
       <div className="w-full h-full ">
         <p className="text-2xl font-semibold">Transactions</p>
-        <div className="flex gap-3 flex-col mt-3">
+        <div className="flex gap-3 flex-col mt-3 overflow-y-scroll no-scrollbar max-h-[540px]">
           {!state.transactions.length && (
             <h2 className=" text-center font-bold">
               You dont have any transactions yet

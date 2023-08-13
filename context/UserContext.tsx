@@ -31,20 +31,20 @@ const createTransaction = (
 
   return {
     date: new Date(),
-    balanceBeforeToSell: +customRound(beforeToSell),
-    balanceAfterToSell: +customRound(
+    balanceBeforeToSell: beforeToSell,
+    balanceAfterToSell: 
       beforeToSell - action.payload.amountOfCurrencyToExchange
-    ),
-    balanceBeforeToBuy: +customRound(beforeToBuyAmount),
-    balanceAfterToBuy: +customRound(
+    ,
+    balanceBeforeToBuy: beforeToBuyAmount,
+    balanceAfterToBuy: 
       beforeToBuyAmount + action.payload.amountOfCurrencyToBuy
-    ),
+    ,
     currencyToSell: action.payload.currencyToExchange,
-    amountOfCurrencyToSell: +customRound(
+    amountOfCurrencyToSell: 
       action.payload.amountOfCurrencyToExchange
-    ),
+    ,
     currencyToBuy: action.payload.currencyToBuy,
-    amountOfCurrencyToBuy: +customRound(action.payload.amountOfCurrencyToBuy),
+    amountOfCurrencyToBuy: action.payload.amountOfCurrencyToBuy,
   };
 };
 

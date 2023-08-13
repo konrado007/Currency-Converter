@@ -1,26 +1,15 @@
 export const customRound = (
   number: number | undefined,
-  decimalPlaces?: number
 ): string => {
   if (number === undefined || number === 0) return "0";
-  if (number < 1) {
-    // 0,0051265...
-    let roundedNumber = "";
-    for (let i = 0; i < number.toString().length; i++) {
-      if (number.toString()[i] != "0" && number.toString()[i] != ".") {
-        roundedNumber = number
-          .toString()
-          .slice(0, (decimalPlaces && i + decimalPlaces) || i + 2);
-        break;
+  let stringNumber = number.toString();
+  if (stringNumber.includes(".")) {
+    for (let i = 0; i < stringNumber.length; i++) {
+      if (stringNumber[i] != "0" && stringNumber.indexOf(".") < i) {
+        stringNumber = stringNumber.slice(0, i + 3);
       }
     }
-
-    return roundedNumber;
-  } else if (!number.toString().includes(".")) {
-    return number.toString();
   }
-  let index = number.toString().indexOf(".");
 
-  return number.toString().slice(0, index + 3);
+  return stringNumber;
 };
-  

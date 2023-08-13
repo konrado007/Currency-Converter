@@ -17,7 +17,7 @@ const TransactionSection: React.FC<Props> = ({
   label,
 }) => {
   return (
-    <div>
+    <div className="flex flex-col items-center flex-[0.3]">
       <h2 className="font-bold text-xl text-center">
         You {label == "sell" ? "sold" : "bought"}:
       </h2>

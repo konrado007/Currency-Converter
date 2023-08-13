@@ -76,7 +76,7 @@ export default function Converter() {
             <ExchangeCard
               label="Amount"
               down
-              calculatedAmount={calculatedAmount}
+              calculatedAmount={+customRound(calculatedAmount)}
               calculateCurrency={getSymbol}
             />
             <button

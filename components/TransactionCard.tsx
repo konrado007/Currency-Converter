@@ -44,7 +44,7 @@ const TransactionCard: React.FC<Props> = ({ transaction }) => {
           balanceBefore={balanceBeforeToSell}
           balanceAfter={balanceAfterToSell}
         />
-        <div>
+        <div className="flex-[0.3] flex items-center justify-center">
           <GrTransaction size={35} color={"#9ca3af"} />
         </div>
         <TransactionSection

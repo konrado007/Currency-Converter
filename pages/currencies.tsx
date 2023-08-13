@@ -62,10 +62,7 @@ export default function Currencies() {
                       {symbols[currency]}
                     </h2>
                     <p className="font-bold">
-                      {customRound(currencyRates[currency], 8).replace(
-                        ".",
-                        ","
-                      )}
+                      {customRound(currencyRates[currency]).replace(".", ",")}
                     </p>
                   </div>
                 </div>

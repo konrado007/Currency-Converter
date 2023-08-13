@@ -15,12 +15,12 @@ const Buttons: React.FC<Props> = ({ currency, setEnteredAmount }) => {
     const amount = state.currencies.find((c) => c.name == currency)?.amount;
     if (amount) {
       if (active == "1/4") {
-        setEnteredAmount(customRound(amount / 4));
+        setEnteredAmount((amount / 4).toString());
       } else if (active == "1/2") {
-        setEnteredAmount(customRound(amount / 2));
+        setEnteredAmount((amount / 2).toString());
       } else {
         //MAX
-        setEnteredAmount(customRound(amount));
+        setEnteredAmount(amount.toString());
       }
     }
   }, [active]);

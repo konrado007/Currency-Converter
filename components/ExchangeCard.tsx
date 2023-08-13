@@ -33,20 +33,24 @@ const ExchangeCard: React.FC<ExchangeCardProps> = ({
   const [enteredAmount, setEnteredAmount] = useState<string>("0");
   const [flag, setFlag] = useState<string>("");
 
+  const [options, setOptions] = useState<string[]>([]);
+
   const [active, setActive] = useState<boolean>(false);
   const { state } = useContext(UserContext);
 
-  const options = () => {
+  useEffect(() => {
     const userCurrencies = state.currencies.map((c) => c.name);
-    return Object.keys(symbols).map((key) => {
-      if (!userCurrencies.includes(key) && active) return;
-      return (
-        <option key={symbols[key]} value={symbols[key]}>
-          {symbols[key]}
-        </option>
-      );
+    let mapOptions = Object.keys(symbols).map((key) => {
+      if (!userCurrencies.includes(key) && active) return "";
+
+      return key;
     });
-  };
+
+    mapOptions = mapOptions.filter((option) => option !== "");
+
+    setOptions(mapOptions); //set new options
+    setSelectedCurrencySymbol(mapOptions[0]); //set first option to be shown
+  }, [active]);
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     Object.keys(symbols).map((key) => {
@@ -64,16 +68,13 @@ const ExchangeCard: React.FC<ExchangeCardProps> = ({
   };
 
   useEffect(() => {
-    if (specialCurrencies[selectedCurrencySymbol]) {
-      setFlag(specialCurrencies[selectedCurrencySymbol]);
-    } else {
-      setFlag(
+    setFlag(
+      specialCurrencies[selectedCurrencySymbol] ||
         `https://www.countryflagicons.com/FLAT/32/${countries[selectedCurrencySymbol]}.png`
-      );
-    }
+    );
 
     setEnteredAmount("0");
-  }, [selectedCurrencySymbol]);
+  }, [selectedCurrencySymbol, options]);
 
   useEffect(() => {
     !down && calculateCurrency(selectedCurrencySymbol, enteredAmount); // invoke this function only for upper ExchangeCard
@@ -95,8 +96,15 @@ const ExchangeCard: React.FC<ExchangeCardProps> = ({
           <select
             className="text-right w-full outline-none px-4 py-2 rounded-md bg-transparent appearance-none"
             onChange={handleSelectChange}
+            value={selectedCurrencyName}
           >
-            {options()}
+            {options.map((option: string) => {
+              return (
+                <option key={symbols[option]} value={symbols[option]}>
+                  {symbols[option]}
+                </option>
+              );
+            })}
           </select>
           <IoIosArrowDown />
         </div>
@@ -140,7 +148,7 @@ const ExchangeCard: React.FC<ExchangeCardProps> = ({
             />
           ) : (
             <div className="no-arrows outline-none text-right w-full h-full bg-[#edf0f9] rounded-lg p-2 font-bold text-black text-2xl">
-              {customRound(calculatedAmount, 4)}
+              {calculatedAmount}
             </div>
           )}
         </div>
