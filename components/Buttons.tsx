@@ -18,7 +18,7 @@ const Buttons: React.FC<Props> = ({ currency, setEnteredAmount }) => {
         setEnteredAmount((amount / 4).toString());
       } else if (active == "1/2") {
         setEnteredAmount((amount / 2).toString());
-      } else {
+      } else if (active == "MAX"){
         //MAX
         setEnteredAmount(amount.toString());
       }

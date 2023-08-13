@@ -1,51 +1,57 @@
 import { Transaction, UserType, UserValue } from "@/constants/context";
-import { customRound } from "@/lib/currency";
 import React, { Dispatch, createContext, useReducer } from "react";
 
 //Action Type
-type ActionType = {
-  type: "BUY";
-  payload: {
-    currencyToExchange: string;
-    amountOfCurrencyToExchange: number;
-    currencyToBuy: string;
-    amountOfCurrencyToBuy: number;
-  };
-};
+type ActionType =
+  | {
+      type: "BUY";
+      payload: {
+        currencyToExchange: string;
+        amountOfCurrencyToExchange: number;
+        currencyToBuy: string;
+        amountOfCurrencyToBuy: number;
+      };
+    }
+  | {
+      type: "CREATE_USER";
+      payload: {
+        symbol: string;
+        amount: number;
+        name: string;
+      };
+    };
 
 const createTransaction = (
   state: UserType,
   action: ActionType
-): Transaction => {
-  const beforeToSell = state.currencies.find(
-    (c) => c.name == action.payload.currencyToExchange
-  )!.amount;
+): Transaction | undefined => {
+  if (action.type == "BUY") {
+    const beforeToSell = state.currencies.find(
+      (c) => c.name == action.payload.currencyToExchange
+    )!.amount;
 
-  const beforeToBuyItem = state.currencies.find(
-    (c) => c.name == action.payload.currencyToBuy
-  );
-  let beforeToBuyAmount;
-  beforeToBuyItem
-    ? (beforeToBuyAmount = beforeToBuyItem.amount)
-    : (beforeToBuyAmount = 0);
+    const beforeToBuyItem = state.currencies.find(
+      (c) => c.name == action.payload.currencyToBuy
+    );
+    let beforeToBuyAmount;
+    beforeToBuyItem
+      ? (beforeToBuyAmount = beforeToBuyItem.amount)
+      : (beforeToBuyAmount = 0);
 
-  return {
-    date: new Date(),
-    balanceBeforeToSell: beforeToSell,
-    balanceAfterToSell: 
-      beforeToSell - action.payload.amountOfCurrencyToExchange
-    ,
-    balanceBeforeToBuy: beforeToBuyAmount,
-    balanceAfterToBuy: 
-      beforeToBuyAmount + action.payload.amountOfCurrencyToBuy
-    ,
-    currencyToSell: action.payload.currencyToExchange,
-    amountOfCurrencyToSell: 
-      action.payload.amountOfCurrencyToExchange
-    ,
-    currencyToBuy: action.payload.currencyToBuy,
-    amountOfCurrencyToBuy: action.payload.amountOfCurrencyToBuy,
-  };
+    return {
+      date: new Date(),
+      balanceBeforeToSell: beforeToSell,
+      balanceAfterToSell:
+        beforeToSell - action.payload.amountOfCurrencyToExchange,
+      balanceBeforeToBuy: beforeToBuyAmount,
+      balanceAfterToBuy:
+        beforeToBuyAmount + action.payload.amountOfCurrencyToBuy,
+      currencyToSell: action.payload.currencyToExchange,
+      amountOfCurrencyToSell: action.payload.amountOfCurrencyToExchange,
+      currencyToBuy: action.payload.currencyToBuy,
+      amountOfCurrencyToBuy: action.payload.amountOfCurrencyToBuy,
+    };
+  }
 };
 
 //reducer func
@@ -86,13 +92,13 @@ const reducer = (state: UserType, action: ActionType): UserType => {
       if (isBought) {
         return {
           ...state,
-          transactions: [transaction, ...state.transactions],
+          transactions: [transaction!, ...state.transactions],
           currencies: updatedCurrencies,
         };
       } else {
         return {
           ...state,
-          transactions: [transaction, ...state.transactions],
+          transactions: [transaction!, ...state.transactions],
           currencies: [
             ...updatedCurrencies,
             {
@@ -102,9 +108,17 @@ const reducer = (state: UserType, action: ActionType): UserType => {
           ],
         };
       }
+    case "CREATE_USER":
+      return {
+        ...state,
+        name: action.payload.name,
+        currencies: [
+          { name: action.payload.symbol, amount: action.payload.amount },
+        ],
+      };
 
     default:
-      throw new Error(`Unhandled action type: ${action.type}`);
+      return { ...state };
   }
 };
 

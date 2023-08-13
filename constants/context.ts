@@ -24,5 +24,5 @@ export type UserType = {
 export const UserValue = {
   name: "",
   transactions: [],
-  currencies: [{ name: "EUR", amount: 100 }],
+  currencies: [{ name: "BTC", amount: 1.5 }],
 };

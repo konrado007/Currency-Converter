@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { CgArrowsExchangeAltV } from "react-icons/cg";
 import { RiExchangeFundsFill } from "react-icons/ri";
 import {
@@ -8,6 +8,7 @@ import {
 
 import { IconType } from "react-icons";
 import { useRouter } from "next/router";
+import { UserContext } from "@/context/UserContext";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -39,6 +40,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   const router = useRouter();
 
+  const { state } = useContext(UserContext);
+
   useEffect(() => {
     router.push(activeTab.href);
   }, [activeTab]);
@@ -60,7 +63,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 />
                 <span
                   className={`font-bold ${
-                    activeTab.label == link.label ? "text-[#423683]" : "text-[#000]"
+                    activeTab.label == link.label
+                      ? "text-[#423683]"
+                      : "text-[#000]"
                   }`}
                 >
                   {link.label}
@@ -75,10 +80,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <div className="flex flex-col pt-2">
           <nav className="flex flex-col items-end justify-end w-[700px] pr-4 font-semibold border-b-[1px] border-[#cecdcd]">
             <p className="text-lg font-[400]">
-              Hello, <span className="font-bold">User</span>
+              Hello, <span className="font-bold">{state.name}</span>
             </p>
             <h2 className="text-sm">
-              Balance: 100 <span className="font-bold">EUR</span>
+              Balance: {state.currencies[0]?.amount}{" "}
+              <span className="font-bold">{state.currencies[0]?.name}</span>
             </h2>
           </nav>
           {children}
